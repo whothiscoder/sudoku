@@ -1,0 +1,185 @@
+:root{
+  --bg:#0b0f17;
+  --card:#101826;
+  --ink:#e8eefc;
+  --muted:#a7b3d6;
+  --line:#2a3550;
+  --accent:#f7c948;
+  --danger:#ff5c7a;
+  --ok:#43d37d;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  background: radial-gradient(1200px 600px at 20% 0%, #16213a 0%, var(--bg) 60%);
+  color:var(--ink);
+}
+
+.wrap{max-width:980px;margin:0 auto;padding:18px}
+h1{margin:14px 0 4px;font-size:32px;letter-spacing:.2px}
+.sub{margin:0;color:var(--muted)}
+
+.controls{
+  background:rgba(16,24,38,.7);
+  border:1px solid rgba(42,53,80,.7);
+  border-radius:18px;
+  padding:14px;
+  backdrop-filter: blur(8px);
+}
+
+.tabs{display:flex;gap:10px;margin-bottom:12px}
+.tab{
+  border:1px solid rgba(42,53,80,.8);
+  background:transparent;
+  color:var(--ink);
+  padding:10px 12px;
+  border-radius:14px;
+  cursor:pointer;
+}
+.tab.active{
+  background:rgba(247,201,72,.12);
+  border-color:rgba(247,201,72,.55);
+}
+
+.control-row{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center
+}
+label{color:var(--muted);font-size:14px}
+select{
+  background:rgba(10,14,24,.9);
+  color:var(--ink);
+  border:1px solid rgba(42,53,80,.9);
+  border-radius:12px;
+  padding:10px 12px;
+  outline:none;
+}
+
+.btn{
+  background:rgba(247,201,72,.95);
+  color:#111;
+  border:none;
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+}
+.btn:hover{filter:brightness(1.03)}
+.btn:active{transform:translateY(1px)}
+.btn-secondary{
+  background:rgba(232,238,252,.14);
+  color:var(--ink);
+  border:1px solid rgba(42,53,80,.9);
+}
+.btn-ghost{
+  background:transparent;
+  color:var(--ink);
+  border:1px solid rgba(42,53,80,.9);
+}
+
+.toggles{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap}
+.toggle{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:14px}
+.toggle input{transform:scale(1.1)}
+
+.board-area{padding:16px 0}
+.panel.hidden{display:none}
+
+.grid{
+  width:min(520px, 92vw);
+  aspect-ratio:1/1;
+  display:grid;
+  grid-template-columns: repeat(9, 1fr);
+  border-radius:18px;
+  overflow:hidden;
+  border:2px solid rgba(247,201,72,.35);
+  background:rgba(16,24,38,.55);
+}
+
+.cell{
+  position:relative;
+  border:1px solid rgba(42,53,80,.7);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  user-select:none;
+}
+
+.cell input{
+  width:100%;
+  height:100%;
+  text-align:center;
+  background:transparent;
+  border:none;
+  outline:none;
+  color:var(--ink);
+  font-size:22px;
+  font-weight:700;
+}
+
+.cell.given input{
+  color:rgba(232,238,252,.95);
+  font-weight:800;
+}
+
+.cell:nth-child(3n):not(:nth-child(9n)){border-right:2px solid rgba(247,201,72,.28)}
+.cell:nth-child(n+19):nth-child(-n+27),
+.cell:nth-child(n+46):nth-child(-n+54){
+  border-bottom:2px solid rgba(247,201,72,.28);
+}
+
+.cell.selected{background:rgba(247,201,72,.12)}
+.cell.conflict{background:rgba(255,92,122,.12)}
+.cell.conflict input{color:rgba(255,92,122,.95)}
+
+.pencil{
+  position:absolute;
+  inset:0;
+  padding:6px;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap:2px;
+  font-size:10px;
+  color:rgba(167,179,214,.95);
+  pointer-events:none;
+}
+.pencil span{display:flex;align-items:center;justify-content:center}
+
+.toast{
+  position:fixed;
+  bottom:18px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(16,24,38,.95);
+  border:1px solid rgba(42,53,80,.9);
+  color:var(--ink);
+  padding:10px 12px;
+  border-radius:14px;
+  opacity:0;
+  transition:opacity .18s ease;
+}
+.toast.show{opacity:1}
+
+.modal{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.55);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+.modal.hidden{display:none}
+.modal-card{
+  width:min(560px, 94vw);
+  background:rgba(16,24,38,.98);
+  border:1px solid rgba(247,201,72,.35);
+  border-radius:18px;
+  padding:18px;
+  box-shadow: 0 18px 70px rgba(0,0,0,.45);
+}
+.modal-msg{font-size:22px;margin:10px 0 16px}
+.modal-actions{display:flex;justify-content:flex-end}
+
+.foot{color:var(--muted)}
