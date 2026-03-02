@@ -5,107 +5,319 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sudoku Surprise</title>
   <link rel="stylesheet" href="styles.css?v=2" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sudoku Surprise</title>
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card: rgba(16, 24, 38, .80);
+      --line: rgba(90, 110, 160, .28);
+      --line-strong: rgba(247,201,72,.45);
+      --ink: #eaf0ff;
+      --muted:#a8b3d6;
+      --accent:#f7c948;
+      --danger:#ff5c7a;
+      --ok:#44d67e;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ink);
+      background: var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+
+    .bg{
+      position:fixed; inset:0;
+      background:
+        radial-gradient(900px 500px at 15% 5%, rgba(50,90,170,.35) 0%, transparent 55%),
+        radial-gradient(900px 500px at 85% 15%, rgba(247,201,72,.12) 0%, transparent 50%),
+        radial-gradient(900px 700px at 50% 100%, rgba(90,200,160,.10) 0%, transparent 55%);
+      pointer-events:none;
+    }
+
+    .container{
+      width:min(980px, 94vw);
+      margin:0 auto;
+    }
+
+    .header{ padding: 22px 0 10px; }
+    h1{
+      margin:0;
+      font-size: clamp(26px, 3.2vw, 36px);
+      letter-spacing: .2px;
+    }
+    .sub{ margin:6px 0 0; color:var(--muted); }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+
+    .controls{ padding:14px; }
+
+    .top-row{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .tabs{ display:flex; gap:10px; }
+
+    .tab{
+      border:1px solid var(--line);
+      background: transparent;
+      color:var(--ink);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .tab.active{
+      border-color: var(--line-strong);
+      background: rgba(247,201,72,.12);
+    }
+
+    .difficulty{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    label{color:var(--muted); font-size:14px}
+    select{
+      background: rgba(10,14,24,.85);
+      border:1px solid var(--line);
+      color:var(--ink);
+      padding:10px 12px;
+      border-radius:14px;
+      outline:none;
+    }
+
+    .btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .btn{
+      border:1px solid var(--line);
+      background: rgba(232,238,252,.08);
+      color:var(--ink);
+      padding:10px 14px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .btn:hover{filter:brightness(1.06)}
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{
+      background: rgba(247,201,72,.95);
+      color:#151515;
+      border-color: rgba(247,201,72,.55);
+    }
+    .btn-ghost{ background: transparent; }
+
+    .toggles{
+      display:flex;
+      gap:18px;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    .toggle{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      color:var(--muted);
+      user-select:none;
+    }
+    .toggle input{transform:scale(1.1)}
+
+    .board-wrap{ padding:16px 0 24px; }
+    .board-card{ padding:14px; }
+
+    .board-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .puzzle-title{display:flex; gap:10px; align-items:center}
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(247,201,72,.45);
+      background: rgba(247,201,72,.10);
+      font-weight:800;
+    }
+    .muted{color:var(--muted)}
+    .tiny{font-size:12px}
+
+    /* ✅ This is the critical bit that makes it a 9x9 grid */
+    .grid{
+      width:min(560px, 92vw);
+      aspect-ratio: 1 / 1;
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: repeat(9, 1fr);
+      border-radius:16px;
+      overflow:hidden;
+      border:2px solid rgba(247,201,72,.35);
+      background: rgba(10,14,24,.25);
+    }
+
+    .cell{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(90,110,160,.22);
+      user-select:none;
+    }
+    .cell.border-r{border-right:2px solid rgba(247,201,72,.22)}
+    .cell.border-b{border-bottom:2px solid rgba(247,201,72,.22)}
+
+    .cell input{
+      width:100%;
+      height:100%;
+      border:none;
+      outline:none;
+      background: transparent;
+      text-align:center;
+      font-size: clamp(18px, 2.6vw, 26px);
+      font-weight:900;
+      color: var(--ink);
+      caret-color: var(--accent);
+    }
+
+    .cell.given input{
+      color: rgba(234,240,255,.95);
+      font-weight:950;
+      opacity: .95;
+    }
+    .cell.selected{ background: rgba(247,201,72,.12); }
+
+    .cell.conflict{ background: rgba(255,92,122,.12); }
+    .cell.conflict input{ color: rgba(255,92,122,.95); }
+
+    .pencil{
+      position:absolute;
+      inset:0;
+      padding:6px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap:2px;
+      font-size: 11px;
+      color: rgba(168,179,214,.95);
+      pointer-events:none;
+    }
+    .pencil span{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .numpad-wrap{
+      margin-top:14px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+    }
+    .numpad{
+      width:min(560px, 92vw);
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    .pad{
+      background: rgba(232,238,252,.08);
+      border:1px solid var(--line);
+      color:var(--ink);
+      border-radius:16px;
+      padding:14px 0;
+      font-weight:900;
+      font-size:18px;
+      cursor:pointer;
+      user-select:none;
+      touch-action:manipulation;
+    }
+    .pad:active{transform:translateY(1px)}
+    .pad-wide{grid-column: span 3}
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(16,24,38,.95);
+      border:1px solid var(--line);
+      opacity:0;
+      transition: opacity .18s ease;
+      z-index:50;
+    }
+    .toast.show{opacity:1}
+
+    .modal{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background: rgba(0,0,0,.55);
+      z-index:60;
+    }
+    .modal.hidden{display:none}
+    .modal-card{
+      width:min(560px, 94vw);
+      padding:18px;
+      border-radius:18px;
+      border:1px solid rgba(247,201,72,.35);
+      background: rgba(16,24,38,.98);
+      box-shadow: 0 18px 70px rgba(0,0,0,.45);
+    }
+    .modal-msg{
+      font-size: clamp(18px, 2.4vw, 26px);
+      margin:10px 0 16px;
+    }
+    .modal-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn-yes{
+      font-size:20px;
+      padding:12px 18px;
+      border-radius:16px;
+    }
+
+    .footer{ padding: 0 0 26px; }
+
+    .hidden{display:none !important}
+
+    @media (max-width: 520px){
+      .btn-row .btn{flex:1}
+      .legend{display:none}
+    }
+  </style>
 </head>
-<body>
-  <div class="bg"></div>
-
-  <header class="container header">
-    <div>
-      <h1>Sudoku Surprise</h1>
-      <p class="sub">Solve both puzzles to reveal the messages 💛</p>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="card controls">
-      <div class="top-row">
-        <div class="tabs" role="tablist" aria-label="Puzzle selector">
-          <button id="tab1" class="tab active" type="button" role="tab" aria-selected="true">Puzzle 1</button>
-          <button id="tab2" class="tab" type="button" role="tab" aria-selected="false">Puzzle 2</button>
-        </div>
-
-        <div class="difficulty">
-          <label for="difficulty">Difficulty</label>
-          <select id="difficulty">
-            <option value="easy">Easy</option>
-            <option value="medium" selected>Medium</option>
-            <option value="hard">Hard</option>
-            <option value="expert">Expert</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="btn-row">
-        <button id="newPuzzleBtn" class="btn btn-primary" type="button">New puzzle</button>
-        <button id="checkBtn" class="btn" type="button">Check</button>
-        <button id="solveBtn" class="btn btn-ghost" type="button">Show solution</button>
-        <button id="clearBtn" class="btn btn-ghost" type="button">Clear entries</button>
-      </div>
-
-      <div class="toggles">
-        <label class="toggle">
-          <input id="autoCheck" type="checkbox" checked />
-          <span>Auto-check conflicts</span>
-        </label>
-        <label class="toggle">
-          <input id="pencilMode" type="checkbox" />
-          <span>Pencil mode</span>
-        </label>
-      </div>
-    </section>
-
-    <section class="board-wrap">
-      <div class="card board-card">
-        <div class="board-head">
-          <div class="puzzle-title">
-            <span class="badge" id="puzzleBadge">Puzzle 1</span>
-            <span class="muted" id="puzzleHint">Message unlocks when solved</span>
-          </div>
-          <div class="legend muted">
-            Tip: click a cell, then use keyboard or number pad
-          </div>
-        </div>
-
-        <div id="grid" class="grid" aria-label="Sudoku grid"></div>
-
-        <div class="numpad-wrap" aria-label="Number pad">
-          <div class="numpad">
-            <button class="pad" data-pad="1" type="button">1</button>
-            <button class="pad" data-pad="2" type="button">2</button>
-            <button class="pad" data-pad="3" type="button">3</button>
-            <button class="pad" data-pad="4" type="button">4</button>
-            <button class="pad" data-pad="5" type="button">5</button>
-            <button class="pad" data-pad="6" type="button">6</button>
-            <button class="pad" data-pad="7" type="button">7</button>
-            <button class="pad" data-pad="8" type="button">8</button>
-            <button class="pad" data-pad="9" type="button">9</button>
-
-            <button class="pad pad-wide" data-pad="clear" type="button">Clear</button>
-            <button class="pad pad-wide" data-pad="pencil" type="button">Pencil</button>
-          </div>
-          <p class="muted tiny">Number pad is optimised for phones (still works on desktop).</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
-
-  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-card">
-      <h2 id="modalTitle">You did it!</h2>
-      <p id="modalMsg" class="modal-msg"></p>
-      <div class="modal-actions">
-        <button id="yesBtn" class="btn btn-primary btn-yes hidden" type="button">Yes 💍</button>
-        <button id="modalClose" class="btn" type="button">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <footer class="container footer">
-    <small class="muted">Keyboard: 1–9 to enter • Backspace/Delete to clear • Arrows to move</small>
-  </footer>
-
-  <script src="app.js?v=2"></script>
-</body>
-</html>
