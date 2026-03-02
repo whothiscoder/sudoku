@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sudoku Surprise</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="wrap">
+    <h1>Sudoku Surprise</h1>
+    <p class="sub">Solve both puzzles to reveal the messages 💛</p>
+  </header>
+
+  <main class="wrap">
+    <section class="controls">
+      <div class="tabs" role="tablist" aria-label="Puzzle selector">
+        <button id="tab1" class="tab active" role="tab" aria-selected="true" aria-controls="panel1">Puzzle 1</button>
+        <button id="tab2" class="tab" role="tab" aria-selected="false" aria-controls="panel2">Puzzle 2</button>
+      </div>
+
+      <div class="control-row">
+        <label for="difficulty">Difficulty</label>
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard</option>
+          <option value="expert">Expert</option>
+        </select>
+
+        <button id="newPuzzleBtn" class="btn">New puzzle</button>
+        <button id="checkBtn" class="btn btn-secondary">Check</button>
+        <button id="solveBtn" class="btn btn-ghost">Show solution</button>
+        <button id="clearBtn" class="btn btn-ghost">Clear entries</button>
+      </div>
+
+      <div class="toggles">
+        <label class="toggle">
+          <input type="checkbox" id="autoCheck" checked />
+          <span>Auto-check conflicts</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="pencilMode" />
+          <span>Pencil mode</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="board-area">
+      <div id="panel1" class="panel" role="tabpanel" aria-labelledby="tab1">
+        <div id="grid" class="grid" aria-label="Sudoku grid"></div>
+      </div>
+      <div id="panel2" class="panel hidden" role="tabpanel" aria-labelledby="tab2">
+        <div id="grid2" class="grid" aria-label="Sudoku grid 2"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <h2 id="modalTitle">You did it!</h2>
+      <p id="modalMsg" class="modal-msg"></p>
+      <div class="modal-actions">
+        <button id="modalClose" class="btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="wrap foot">
+    <small>Tip: Use number keys (1–9). Backspace/Delete clears a cell.</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
