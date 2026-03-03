@@ -69,7 +69,6 @@ function showToast(msg, ok = true) {
 function openModal(message) {
   modalMsg.textContent = message;
 
-  // Show “Yes 💍” only for Puzzle 2
   const isProposal = state.active === 1;
   yesBtn.classList.toggle("hidden", !isProposal);
 
@@ -86,12 +85,9 @@ modal.addEventListener("click", (e) => {
 });
 
 yesBtn.addEventListener("click", () => {
-
   closeModal();
   showToast("🥳 Opening part 2...", true);
-
-  // redirect (same tab)
-  window.location.href = PART2_URL;
+  window.location.assign(PART2_URL);
 });
 
 function cancelRevealTimers() {
