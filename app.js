@@ -1,5 +1,6 @@
 const MESSAGES = ["I love you Tasnim ♥", "Will you marry me? Click yes for part 2 of your present."];
 const PART2_URL = "https://docs.google.com/presentation/d/1Yc-cdn3LpSqpnlDRY1SrIXk1B9UapWw1zwozHqLvYKI/edit?usp=sharing";
+const SOLUTION_PASSWORD = "Imissyousoflippingmuch"; 
 const difficultyToClues = {
   easy: 40,
   medium: 32,
@@ -639,7 +640,11 @@ checkBtn.addEventListener("click", () => {
 });
 
 solveBtn.addEventListener("click", () => {
-  cancelRevealTimers();
+  const pw = prompt("Enter password to show the solution:");
+  if (pw !== SOLUTION_PASSWORD) {
+    showToast("Wrong password 😅", false);
+    return;
+  }
 
   const p = state.puzzles[state.active];
   for (let i = 0; i < 81; i++) {
@@ -648,6 +653,8 @@ solveBtn.addEventListener("click", () => {
   }
   render();
   refreshConflicts();
+  // (optional) don't auto-reveal the message here:
+  // revealWithDelay(4);
   revealMessageWithDelay(4);
 });
 
