@@ -1,15 +1,5 @@
-/* Sudoku Surprise (GitHub Pages friendly, no libs)
-   - Two puzzles (tabs)
-   - Difficulty-based generation
-   - Pencil mode
-   - Auto conflict highlighting
-   - Mobile number pad
-   - Modal reveal with "Yes 💍" on Puzzle 2
-   - 4 second reveal timer after solve
-*/
-
-const MESSAGES = ["I love you", "Will you marry me"];
-
+const MESSAGES = ["I love you Tasnim ♥", "Will you marry me? Click yes for part 2 of your present."];
+const PART2_URL = "https://docs.google.com/presentation/d/1Yc-cdn3LpSqpnlDRY1SrIXk1B9UapWw1zwozHqLvYKI/edit?usp=sharing";
 const difficultyToClues = {
   easy: 40,
   medium: 32,
@@ -96,8 +86,12 @@ modal.addEventListener("click", (e) => {
 });
 
 yesBtn.addEventListener("click", () => {
+
   closeModal();
-  showToast("🥳 She said YES!", true);
+  showToast("🥳 Opening part 2...", true);
+
+  // redirect (same tab)
+  window.location.href = PART2_URL;
 });
 
 function cancelRevealTimers() {
