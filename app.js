@@ -1,6 +1,6 @@
-const MESSAGES = ["I love you Tasnim ♥", "Will you marry me? Click yes for part 2 of your present."];
+const MESSAGES = ["Happy Birthday!!! I love you Tasnim ♥", "Will you marry me? Click yes for part 2 of your present."];
 const PART2_URL = "https://docs.google.com/presentation/d/1Yc-cdn3LpSqpnlDRY1SrIXk1B9UapWw1zwozHqLvYKI/edit?usp=sharing";
-const SOLUTION_PASSWORD = "Imissyousoflippingmuch"; 
+const SOLUTION_PASSWORD = "SaeedxTasnim"; 
 const difficultyToClues = {
   easy: 40,
   medium: 32,
